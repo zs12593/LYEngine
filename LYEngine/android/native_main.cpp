@@ -7,13 +7,13 @@ using namespace ly;
 extern "C" {
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-    Log::d("JNI_OnLoad");
     Game::getInstance()->run();
     return JNI_VERSION_1_4;
 }
 
 JNIEXPORT void JNICALL
-Java_com_ly_lyengine_LYRender_nativeLoop(JNIEnv *env, jobject instance) {
+Java_com_ly_lyengine_LYRenderer_nativeLoop(JNIEnv *env, jobject instance) {
+    Game::getInstance()->mainLoop();
 }
 
 JNIEXPORT void JNICALL
@@ -24,12 +24,12 @@ Java_com_ly_lyengine_LYGLView_nativeSizeChanged(JNIEnv *env, jobject instance, j
 
 extern "C" JNIEXPORT void JNICALL
 Java_com_ly_lyengine_LYGLView_nativeResume(JNIEnv *env, jobject instance) {
-    Log::d("nativeResume");
+    Game::getInstance()->onForeground();
 }
 
 JNIEXPORT void JNICALL
 Java_com_ly_lyengine_LYGLView_nativePause(JNIEnv *env, jobject instance) {
-    Log::d("nativePause");
+    Game::getInstance()->onBackground();
 }
 
 JNIEXPORT void JNICALL

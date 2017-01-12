@@ -41,7 +41,7 @@ public class LYActivity extends Activity {
         mGLView = new LYGLView(this);
         contentView.addView(mGLView);
         setEGLConfigChooser(8, 8, 8, 8, 24, 8);
-        mGLView.setRenderer(new LYRender());
+        mGLView.setRenderer(new LYRenderer());
     }
 
     protected void setEGLConfigChooser(int redSize, int greenSize, int blueSize,

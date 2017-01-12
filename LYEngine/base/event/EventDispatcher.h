@@ -2,6 +2,8 @@
 #define LYENGINE_EVENTDISPATCHER_H
 
 #include "Event.h"
+#include "EventListener.h"
+#include <functional>
 
 namespace ly {
 
@@ -11,7 +13,10 @@ public:
 
     static int dispatch(Event *event);
 
-    static void removeEvent(int handle);
+    static EventListener *registerEventListener(std::string eventName, std::function<void()> func,
+                                                int priority = 0);
+
+    static void unRegisterEventListener(EventListener *listener);
 
 };
 

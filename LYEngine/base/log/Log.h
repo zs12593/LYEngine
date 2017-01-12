@@ -2,7 +2,7 @@
 #define LYENGINE_LOG_H
 
 #include <jni.h>
-#include <android/log.h>
+#include <asm/signal.h>
 
 namespace ly {
 
@@ -16,6 +16,12 @@ public:
 
     static void d(const char *fmt, ...);
 
+    static void setTag(const char *tag);
+
+    static void log(int prio, const char *tag, const char *fmt, ...);
+
+private:
+    static const char *_log(const char *fmt, va_list args);
 };
 
 }

@@ -5,12 +5,20 @@ project( LYEngine )
 
 set (engine_src android/native_main.cpp
 
-                base/LogicThread.cpp
                 base/Game.cpp
+                base/Time.cpp
 
+                base/event/Event.cpp
                 base/event/EventDispatcher.cpp
+                base/event/EventListener.cpp
+                base/event/EventManager.cpp
 
                 base/log/Log.cpp
+
+                base/node/Node.cpp
+                base/node/Scene.cpp
+
+                base/renderer/Renderer.cpp
 
                 )
 
