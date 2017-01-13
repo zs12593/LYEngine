@@ -1,30 +1,63 @@
 #ifndef LYENGINE_NODE_H
 #define LYENGINE_NODE_H
 
+#include <vector>
+#include <string>
+
 namespace ly {
 
 class Node {
 public:
+    Node();
+
+    ~Node();
+
     virtual void update(float delta) { }
 
     virtual void onBackground() { }
 
     virtual void onForeground() { }
-};
 
-class InputEventNode : public Node {
-public:
-    virtual bool onKeyDown(int keyCode) { return false; };
+    virtual void addChild(Node *child, int tag = 0, int zOrder = 0);
 
-    virtual void onKeyUp(int keyCode) { };
+    virtual void removeChild(Node *child, bool clean = true);
 
-    virtual bool onTouchDown(float x, float y) { return false; }
+    virtual void removeChildByTag(int tag, bool clean = true);
 
-    virtual void onTouchUp(float x, float y) { }
+    void removeAllChildren(bool clean = true);
 
-    virtual void onTouchMove(float x, float y) { }
+    virtual Node *getChild(int pos);
 
-    virtual void ontTouchCancel() { }
+    virtual Node *getChildByTag(int tag);
+
+    void setTag(int tag) { this->_tag = tag; }
+
+    int getTag() { return this->_tag; }
+
+    void setZOrder(int zOrder) { this->_zOrder = zOrder; }
+
+    int getZOrder() { return _zOrder; }
+
+    void setParent(Node *parent) { this->_parent = parent; }
+
+    Node *getParent() { return this->_parent; }
+
+    void setName(std::string name) { this->_name = name; }
+
+    std::string getName() { return this->_name; }
+
+    void setUserData(void *userData) { this->_userData = userData; }
+
+    void *getUsreData() { return this->_userData; }
+
+protected:
+    std::vector<Node *> _children;
+    int _tag;
+    int _zOrder;
+    std::string _name;
+
+    Node *_parent;
+    void *_userData;
 };
 
 }

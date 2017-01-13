@@ -2,7 +2,7 @@
 #define LYENGINE_EVENT_H
 
 #include <string>
-#include "../node/Node.h"
+#include "../Value.h"
 
 namespace ly {
 
@@ -33,19 +33,12 @@ class InputEvent : public Event {
 public:
     enum InputAction {
         KeyDown, KeyUp, // KEY
-        TouchDown, TouchUp, TouchCancel, // TOUCH
+        TouchDown, TouchMove, TouchUp, TouchCancel, // TOUCH
     };
 
     const InputAction action;
 
     InputEvent(InputAction action) : Event(INPUT), action(action) { }
-
-    void setHandledNode(InputEventNode *node) { _handledNode = node; }
-
-    InputEventNode *getHandledNode() { return _handledNode; }
-
-private:
-    InputEventNode *_handledNode;
 };
 
 class TouchEvent : public InputEvent {
@@ -71,6 +64,13 @@ public:
     const std::string eventName;
 
     CustomEvent(std::string eventName) : Event(CUSTOM), eventName(eventName) { }
+
+    Value *getValues() const { return _vals; }
+
+    void setValues(Value *_vals) { CustomEvent::_vals = _vals; }
+
+private:
+    Value *_vals;
 };
 
 }

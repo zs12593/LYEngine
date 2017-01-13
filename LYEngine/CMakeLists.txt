@@ -16,6 +16,7 @@ set (engine_src android/native_main.cpp
                 base/log/Log.cpp
 
                 base/node/Node.cpp
+                base/node/InputEventNode.cpp
                 base/node/Scene.cpp
 
                 base/renderer/Renderer.cpp

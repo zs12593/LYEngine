@@ -1,7 +1,7 @@
 #ifndef LYENGINE_SCENE_H
 #define LYENGINE_SCENE_H
 
-#include "Node.h"
+#include "InputEventNode.h"
 
 namespace ly {
 

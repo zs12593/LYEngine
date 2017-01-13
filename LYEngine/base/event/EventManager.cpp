@@ -49,19 +49,11 @@ void EventManager::processInputEvent(Scene *scene) {
     _mutex.unlock();
     vector<InputEvent *>::iterator iter;
     while (iter != cloneEvents.end()) {
-        switch ((*iter)->action) {
-            case InputEvent::KeyDown:
-                scene->onKeyDown(((KeyEvent *) (*iter))->keyCode);
-                break;
-            case InputEvent::KeyUp:
-                scene->onKeyUp(((KeyEvent *) (*iter))->keyCode);
-                break;
-            case InputEvent::TouchDown:
-                break;
-            case InputEvent::TouchUp:
-                break;
-            case InputEvent::TouchCancel:
-                break;
+        InputEvent::InputAction action = (*iter)->action;
+        if (action <= InputEvent::KeyUp) {
+            scene->handleKeyEvent((KeyEvent *) (*iter));
+        } else if (action >= InputEvent::TouchDown && action <= InputEvent::TouchCancel) {
+            scene->handleTouchEvent((TouchEvent *) (*iter));
         }
         delete (*iter);
         iter = cloneEvents.begin();
