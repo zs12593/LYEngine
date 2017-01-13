@@ -7,7 +7,7 @@ namespace ly {
 
 #define VALUE_ARRAY(_t) static Value **toValueArray(_t* arr, int len) { \
                         if (len <= 0) return nullptr; \
-                        Value **val = new Value*[10]; \
+                        Value **val = new Value*[len]; \
                         for (int i = 0; i < len; ++i) \
                             val[i] = new Value(arr[i]); \
                         return val; }
