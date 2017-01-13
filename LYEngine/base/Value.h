@@ -5,11 +5,11 @@
 
 namespace ly {
 
-#define VALUE_ARRAY(_t) static Value *toValueArray(_t* arr, int len) { \
+#define VALUE_ARRAY(_t) static Value **toValueArray(_t* arr, int len) { \
                         if (len <= 0) return nullptr; \
-                        Value *val = new Value[10]; \
+                        Value **val = new Value*[10]; \
                         for (int i = 0; i < len; ++i) \
-                            val[i].set_##_t(arr[i]); \
+                            val[i] = new Value(arr[i]); \
                         return val; }
 
 class Value {
@@ -71,21 +71,9 @@ public:
 
     VALUE_ARRAY(long)
 
-    static Value *toValueArray(long long *arr, int len) {
-        if (len <= 0) return nullptr;
-        Value *val = new Value[10];
-        for (int i = 0; i < len; ++i)
-            val[i].set_longLong(arr[i]);
-        return val;
-    }
+    VALUE_ARRAY(long long)
 
-    static Value *toValueArray(std::string *arr, int len) {
-        if (len <= 0) return nullptr;
-        Value *val = new Value[10];
-        for (int i = 0; i < len; ++i)
-            val[i].set_string(arr[i]);
-        return val;
-    }
+    VALUE_ARRAY(std::string)
 
     Value() { }
 
