@@ -2,7 +2,6 @@
 #define LYENGINE_LOG_H
 
 #include <jni.h>
-#include <asm/signal.h>
 
 namespace ly {
 

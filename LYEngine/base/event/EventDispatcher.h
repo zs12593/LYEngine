@@ -13,7 +13,7 @@ public:
 
     static int dispatch(Event *event);
 
-    static EventListener *registerEventListener(std::string eventName, std::function<void()> func,
+    static EventListener *registerEventListener(std::string eventName, std::function<void(Event *)> func,
                                                 int priority = 0);
 
     static void unRegisterEventListener(EventListener *listener);

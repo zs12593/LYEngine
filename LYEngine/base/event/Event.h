@@ -43,12 +43,19 @@ public:
 
 class TouchEvent : public InputEvent {
 public:
-    const int ids[];
-    const float x[];
-    const float y[];
+    const int count;
+    const int* ids;
+    const float* x;
+    const float* y;
 
-    TouchEvent(InputAction action, int ids[], float x[], float y[])
-            : InputEvent(action), ids(ids), x(x), y(y) {
+    TouchEvent(InputAction action, int count, int ids[], float x[], float y[])
+            : count(count), InputEvent(action), ids(ids), x(x), y(y) {
+    }
+
+    ~TouchEvent() {
+        delete[] ids;
+        delete[] x;
+        delete[] y;
     }
 };
 
@@ -65,12 +72,18 @@ public:
 
     CustomEvent(std::string eventName) : Event(CUSTOM), eventName(eventName) { }
 
-    Value *getValues() const { return _vals; }
+    Value *getValues() const { return _values; }
 
-    void setValues(Value *_vals) { CustomEvent::_vals = _vals; }
+    int getValuesCount() { return count; }
+
+    void setValues(Value *_vals, int count) {
+        _values = _vals;
+        this->count = count;
+    }
 
 private:
-    Value *_vals;
+    Value *_values;
+    int count;
 };
 
 }

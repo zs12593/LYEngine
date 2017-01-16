@@ -6,7 +6,7 @@ project( LYEngine )
 set (engine_src android/native_main.cpp
 
                 base/Game.cpp
-                base/Time.cpp
+                base/Camera.cpp
 
                 base/event/Event.cpp
                 base/event/EventDispatcher.cpp
@@ -18,8 +18,13 @@ set (engine_src android/native_main.cpp
                 base/node/Node.cpp
                 base/node/InputEventNode.cpp
                 base/node/Scene.cpp
+                base/node/Sprite.cpp
 
                 base/renderer/Renderer.cpp
+                base/renderer/RendererCommand.cpp
+
+                base/texture/Texture.cpp
+                base/texture/TextureManager.cpp
 
                 )
 

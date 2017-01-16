@@ -2,7 +2,8 @@
 
 namespace ly {
 
+void Scene::doSth() {
 
 }
 
-
+}

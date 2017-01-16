@@ -2,7 +2,9 @@
 #define LYENGINE_GAME_H
 
 #include <functional>
+#include <chrono>
 #include "node/Scene.h"
+#include "renderer/Renderer.h"
 
 namespace ly {
 
@@ -28,6 +30,8 @@ public:
 
     Scene *getRunningScene() { return _runningScene; }
 
+    float getDeltaTime() const { return _deltaTime; }
+
 private:
     Game();
 
@@ -39,8 +43,10 @@ private:
     bool _isPaused;
     bool _isRendererPaused;
     bool _isExit;
-    double _lastTime;
+    std::chrono::steady_clock::time_point _lastTime;
+    float _deltaTime;
     Scene *_runningScene;
+    Renderer _renderer;
 };
 
 }

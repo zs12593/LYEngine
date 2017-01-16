@@ -20,7 +20,7 @@ int EventDispatcher::dispatch(Event *event) {
 }
 
 EventListener *EventDispatcher::registerEventListener(std::string eventName,
-                                                      std::function<void()> func,
+                                                      std::function<void(Event *)> func,
                                                       int priority) {
     EventListener *listener = new EventListener(eventName, func, priority);
     EventManager::getInstance()->addEventListener(listener);

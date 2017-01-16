@@ -54,7 +54,7 @@ void Log::log(int prio, const char *tag, const char *fmt, ...) {
 }
 
 const char *Log::_log(const char *fmt, va_list args) {
-    size_t bufSize = MAX_LOG_LENGTH;
+    int bufSize = MAX_LOG_LENGTH;
     char *buf = nullptr;
     while (1) {
         buf = new(std::nothrow) char[bufSize];

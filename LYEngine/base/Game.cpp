@@ -1,6 +1,5 @@
 #include "Game.h"
 #include "event/EventManager.h"
-#include "Time.h"
 #include <thread>
 
 namespace ly {
@@ -18,34 +17,44 @@ Game::Game() {
     _isExit = false;
     _isRendererPaused = false;
     _runningScene = nullptr;
-    _lastTime = Time::getCurrentTime();
+    _deltaTime = -1;
 }
 
 Game::~Game() {
+    delete (_runningScene);
 }
 
 void Game::run() {
     if (_isRunning) return;
     _isRunning = true;
-    std::thread logic(logicLoop);
+    std::thread logic(&Game::logicLoop, this);
     logic.detach();
 }
 
 void Game::mainLoop() {
     if (_isRendererPaused || _isPaused) return;
 
+    if (_runningScene)
+        _runningScene->renderer(&_renderer);
+    _renderer.renderer(_runningScene);
 }
 
 void Game::logicLoop() {
     while (_isExit) {
         if (_isPaused) continue;
 
-        double time = Time::getCurrentTime();
+        auto now = std::chrono::steady_clock::now();
+        if (_deltaTime < 0)
+            _deltaTime = 0;
+        else
+            _deltaTime =
+                    std::chrono::duration_cast<std::chrono::microseconds>(now - _lastTime).count() /
+                    1000000.0f;
         if (_runningScene) {
             EventManager::getInstance()->processInputEvent(_runningScene);
-            _runningScene->update((float) (time - _lastTime));
+            _runningScene->update(_deltaTime);
         }
-        _lastTime = time;
+        _lastTime = now;
     }
 }
 
@@ -58,7 +67,7 @@ void Game::resume() {
 }
 
 void Game::setRunningScene(Scene *scene) {
-
+    _runningScene = scene;
 }
 
 void Game::onBackground() {

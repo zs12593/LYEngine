@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "../renderer/Renderer.h"
 
 namespace ly {
 
@@ -49,6 +50,8 @@ public:
     void setUserData(void *userData) { this->_userData = userData; }
 
     void *getUsreData() { return this->_userData; }
+
+    virtual void renderer(Renderer* renderer);
 
 protected:
     std::vector<Node *> _children;

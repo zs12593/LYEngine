@@ -5,10 +5,13 @@
 
 using namespace ly;
 
+extern void gameEnter();
+
 extern "C" {
 
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     Game::getInstance()->run();
+    gameEnter();
     return JNI_VERSION_1_4;
 }
 
@@ -47,8 +50,8 @@ JNIEXPORT void JNICALL
 Java_com_ly_lyengine_LYGLView_nativeTouchDown(JNIEnv *env, jobject instance,
                                               jint pointer, jfloat x, jfloat y) {
     EventDispatcher::getInstance()->dispatch(
-            new TouchEvent(InputEvent::TouchDown, new int[]{pointer}, new float[]{x},
-                           new float[]{y}));
+            new TouchEvent(InputEvent::TouchDown, 1, new int[1]{pointer}, new float[1]{x},
+                           new float[1]{y}));
 }
 
 JNIEXPORT void JNICALL
@@ -70,7 +73,7 @@ Java_com_ly_lyengine_LYGLView_nativeTouchMove(JNIEnv *env, jobject instance,
         Log::e("native float array copy error");
         return;
     }
-    size = env->GetArrayLength(xs);
+    // size = env->GetArrayLength(xs);
     float *txs = new float[size];
     for (int i = 0; i < size; i++)
         txs[i] = x[i];
@@ -80,12 +83,13 @@ Java_com_ly_lyengine_LYGLView_nativeTouchMove(JNIEnv *env, jobject instance,
         Log::e("native float array copy error");
         return;
     }
-    size = env->GetArrayLength(ys);
+    // size = env->GetArrayLength(ys);
     float *tys = new float[size];
     for (int i = 0; i < size; i++)
         tys[i] = y[i];
 
-    EventDispatcher::getInstance()->dispatch(new TouchEvent(InputEvent::TouchMove, tids, txs, tys));
+    EventDispatcher::getInstance()->dispatch(
+            new TouchEvent(InputEvent::TouchMove, size, tids, txs, tys));
     env->ReleaseIntArrayElements(ids, id, JNI_ABORT);
     env->ReleaseFloatArrayElements(xs, x, JNI_ABORT);
     env->ReleaseFloatArrayElements(ys, y, JNI_ABORT);
@@ -95,8 +99,8 @@ JNIEXPORT void JNICALL
 Java_com_ly_lyengine_LYGLView_nativeTouchUp(JNIEnv *env, jobject instance,
                                             jint pointer, jfloat x, jfloat y) {
     EventDispatcher::getInstance()->dispatch(
-            new TouchEvent(InputEvent::TouchUp, new int[]{pointer}, new float[]{x},
-                           new float[]{y}));
+            new TouchEvent(InputEvent::TouchUp, 1, new int[1]{pointer}, new float[1]{x},
+                           new float[1]{y}));
 }
 
 JNIEXPORT void JNICALL
@@ -113,8 +117,8 @@ Java_com_ly_lyengine_LYGLView_nativeTouchCancel(JNIEnv *env, jobject instance,
     for (int i = 0; i < size; i++)
         tids[i] = id[i];
 
-    EventDispatcher::getInstance()->dispatch(new TouchEvent(InputEvent::TouchCancel, tids, nullptr,
-                                                            nullptr));
+    EventDispatcher::getInstance()->dispatch(
+            new TouchEvent(InputEvent::TouchCancel, 0, tids, nullptr, nullptr));
     env->ReleaseIntArrayElements(ids, id, JNI_ABORT);
 }
 

@@ -6,7 +6,7 @@
 namespace ly {
 
 class Scene : public InputEventNode {
-
+    void doSth();
 };
 
 }
